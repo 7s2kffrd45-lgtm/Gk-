@@ -1,0 +1,19 @@
+{
+  "routerMap": [
+    {
+      "name": "cPage",
+      "pageSourceFile": "src/main/ets/pages/cPage.ets",
+      "buildFunction": "cPagebuilder"
+    },
+    {
+      "name": "classPage",
+      "pageSourceFile": "src/main/ets/pages/classPage.ets",
+      "buildFunction": "classPageBuilder"
+    },
+    {
+      "name": "LoginPage",
+      "pageSourceFile": "src/main/ets/pages/LoginPage.ets",
+      "buildFunction": "LoginPagebuilder"
+    }
+  ]
+}
