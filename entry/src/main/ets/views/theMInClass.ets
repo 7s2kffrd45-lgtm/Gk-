@@ -1,15 +1,10 @@
 import { courses } from '../rcpModles/rcpUtil';
-import { weekDayCourses, currentWeek, todayDayOfWeek } from '../rcpModles/schedule-utils';
+import { currentWeek, todayDayOfWeek, weekDayCourses } from '../rcpModles/schedule-utils';
 
 @Preview
 @ComponentV2
 export struct theMinClass {
   @Consumer('localData') localData: courses[] = [];
-
-  private getList(): courses[] {
-    if (!this.localData || this.localData.length === 0) return [];
-    return weekDayCourses(this.localData, currentWeek('2026-08-31'), todayDayOfWeek());
-  }
 
   build() {
     Column() {
@@ -48,5 +43,12 @@ export struct theMinClass {
     .justifyContent(FlexAlign.Start)
     .width("90%")
     .borderRadius(18)
+  }
+
+  private getList(): courses[] {
+    if (!this.localData || this.localData.length === 0) {
+      return [];
+    }
+    return weekDayCourses(this.localData, currentWeek('2026-08-31'), todayDayOfWeek());
   }
 }

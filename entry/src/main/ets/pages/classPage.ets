@@ -4,6 +4,8 @@ import { theGrid } from '../views/theGrid';
 import { courses, loGinJson } from '../rcpModles/rcpUtil';
 import preUtil from '../preferenceUtil/preUtil';
 import { JSON } from '@kit.ArkTS';
+import { SafeAreaInfo } from '../models/model';
+import { AppStorageV2 } from '@kit.ArkUI';
 
 @Builder
 function classPageBuilder() {
@@ -13,6 +15,8 @@ function classPageBuilder() {
 @Preview
 @ComponentV2
 struct classPage {
+  @Consumer('safeArea') safeArea: SafeAreaInfo =
+    AppStorageV2.connect(SafeAreaInfo, 'safeArea', () => new SafeAreaInfo())!
   @Consumer("pathStack") pathStack: NavPathStack = new NavPathStack();
   @Consumer('loginDataFromRcp') loginDataFromRcp: loGinJson | null = null;
   @Consumer('loginSate') loginSate: boolean = false;
@@ -46,8 +50,10 @@ struct classPage {
           if (!this.loginSate) {
             Column() {
               Text('还没登陆哦,')
+                .fontColor('#ffcfcdcd')
                 .fontSize(25)
               Text('点我去登陆')
+                .fontColor('#ffcfcdcd')
                 .fontColor(Color.Blue)
                 .onClick(() => {
                   this.pathStack.pushPathByName('LoginPage', null)
@@ -63,7 +69,11 @@ struct classPage {
       .height('100%')
       .width('100%')
       .alignItems(HorizontalAlign.Start)
+      .padding({
+        top: this.getUIContext().px2vp(this.safeArea.topHeight),
+      })
     }
+    .hideBackButton(true)
     .backgroundImage($r('app.media.black'))
     .backgroundImageSize(ImageSize.Cover)
   }

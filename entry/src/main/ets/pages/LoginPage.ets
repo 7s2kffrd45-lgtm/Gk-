@@ -1,7 +1,7 @@
-import { theUimaterail } from '../models/model';
+import { SafeAreaInfo, theUimaterail } from '../models/model';
 import { courses, getSchedule, loGin, loGinJson } from '../rcpModles/rcpUtil';
 import { fillDates } from '../rcpModles/schedule-utils';
-import { PromptAction } from '@kit.ArkUI';
+import { AppStorageV2, PromptAction } from '@kit.ArkUI';
 import common from '@ohos.app.ability.common';
 import preUtil from '../preferenceUtil/preUtil';
 
@@ -20,6 +20,8 @@ export struct LoginPage {
   @Local lastTime: number = 0; //用于记录上次点击登陆时间
   @Local context: Context = getContext(this) as common.UIAbilityContext;
   @Consumer("pathStack") pathStack: NavPathStack = new NavPathStack();
+  @Consumer('safeArea') safeArea: SafeAreaInfo =
+    AppStorageV2.connect(SafeAreaInfo, 'safeArea', () => new SafeAreaInfo())!
   @Consumer("courseData") courseData: courses[] = [];
   @Consumer('loginDataFromRcp') loginDataFromRcp: loGinJson | null = null;
   promptAction: PromptAction = this.getUIContext().getPromptAction();
@@ -72,7 +74,7 @@ export struct LoginPage {
             .height(65)
             .borderRadius(18)
             .backgroundColor('#ffb7b7b7')
-
+            .type(InputType.Password)
             // .systemMaterial(this.uimaterial)
             .onChange((val) => {
               this.password = val;
@@ -161,8 +163,12 @@ export struct LoginPage {
       .backgroundImageSize(ImageSize.Cover)
       .width("100%")
       .height("100%")
+      .padding({
+        top: this.getUIContext().px2vp(this.safeArea.topHeight),
+      })
 
     }
+    .hideBackButton(true)
     .backgroundImage($r("app.media.black"))
     .backgroundImageSize(ImageSize.Cover)
   }

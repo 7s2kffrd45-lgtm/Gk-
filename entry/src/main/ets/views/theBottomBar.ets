@@ -1,10 +1,11 @@
 import { checkMaterailSupport, theUimaterail } from '../models/model';
-import { uiMaterial } from '@kit.ArkUI';
+import { PromptAction, uiMaterial } from '@kit.ArkUI';
 
 @ComponentV2
 export struct theBottomBar {
   @Consumer("pathStack") pathStack: NavPathStack = new NavPathStack();
   @Consumer("isOpenUimat") isOpenUimat: boolean = checkMaterailSupport() //识别设备是否支持沉浸光感
+  promptAction: PromptAction = this.getUIContext().getPromptAction();
   private uiMaterialConfig: theUimaterail = new theUimaterail()
 
   build() {
@@ -39,6 +40,12 @@ export struct theBottomBar {
       Column({ space: 4 }) {
         // Image($r("app.media.studenid")).width(24).height(24)
         Text("我的").fontWeight(FontWeight.Bold).fontSize(18).fontColor('#ffcfcdcd')
+          .onClick(() => {
+            this.promptAction.showToast({
+              message: '努力开发中',
+              systemMaterial: this.isOpenUimat ? this.uiMaterialConfig.immersivemat : uiMaterial.ImmersiveMaterial.empty
+            })
+          })
       }
       .margin({ right: 10 })
       .width(90)
