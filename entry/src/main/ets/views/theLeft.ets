@@ -1,10 +1,10 @@
 import { classNumitem, getclassNumitem } from '../models/datahead';
-import { theUimaterail } from '../models/model';
+import { checkMaterailSupport, theUimaterail } from '../models/model';
 import { uiMaterial } from '@kit.ArkUI';
 
 @ComponentV2
 export struct theLeft {
-  @Consumer("isOpenUimat") isOpenUimat: boolean = false;
+  @Provider("isOpenUimat") isOpenUimat: boolean = checkMaterailSupport() //识别设备是否支持沉浸光感
   @Local classItem: classNumitem[] = getclassNumitem();
   private uimaterial: theUimaterail = new theUimaterail();
   private cellHeight: number = 55;

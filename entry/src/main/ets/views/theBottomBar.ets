@@ -13,14 +13,20 @@ export struct theBottomBar {
     Row() {
       Column({ space: 4 }) {
         // Image($r("app.media.")).width(24).height(24)
-        Text("首页").fontWeight(FontWeight.Bold).fontSize(18).fontColor('#ffcfcdcd')
+        Text("首页")
+          .fontWeight(FontWeight.Bold)
+          .fontSize(18)
+          .fontColor('#ffcfcdcd')
+          .border({ width: { bottom: 1 } })
+          .borderColor('#ffcfcdcd')
+          .padding({ bottom: 5 })
       }
       .margin({ left: 10 })
       .width(90)
       .height(47)
       .borderRadius(22)
       .backgroundColor(Color.Transparent)
-      .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig : uiMaterial.ImmersiveMaterial.empty)
+      .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig.immersivemat : uiMaterial.ImmersiveMaterial.empty)
       .justifyContent(FlexAlign.Center)
 
       // .onClick(() => this.pathStack.pushPathByName('Index', null))
@@ -33,26 +39,24 @@ export struct theBottomBar {
       .height(47)
       .borderRadius(22)
       .backgroundColor(Color.Transparent)
-      .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig : uiMaterial.ImmersiveMaterial.empty)
+      .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig.immersivemat : uiMaterial.ImmersiveMaterial.empty)
       .justifyContent(FlexAlign.Center)
       .onClick(() => this.pathStack.pushPathByName('classPage', null))
 
       Column({ space: 4 }) {
         // Image($r("app.media.studenid")).width(24).height(24)
         Text("我的").fontWeight(FontWeight.Bold).fontSize(18).fontColor('#ffcfcdcd')
-          .onClick(() => {
-            this.promptAction.showToast({
-              message: '努力开发中',
-              systemMaterial: this.isOpenUimat ? this.uiMaterialConfig.immersivemat : uiMaterial.ImmersiveMaterial.empty
-            })
-          })
+
       }
+      .onClick(() => {
+        this.pathStack.pushPathByName('homePage', null);
+      })
       .margin({ right: 10 })
       .width(90)
       .height(47)
       .borderRadius(22)
       .backgroundColor(Color.Transparent)
-      .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig : uiMaterial.ImmersiveMaterial.empty)
+      .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig.immersivemat : uiMaterial.ImmersiveMaterial.empty)
       .justifyContent(FlexAlign.Center)
     }
     .margin({ bottom: 15 })
@@ -61,6 +65,6 @@ export struct theBottomBar {
     .width("90%")
     .height(66)
     .backgroundColor('#1dffffff')
-    .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig : uiMaterial.ImmersiveMaterial.empty)
+    .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig.immersivemat : uiMaterial.ImmersiveMaterial.empty)
   }
 }

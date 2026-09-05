@@ -62,7 +62,7 @@ export struct weekViews {
       radius: 12, // 发光范围，越大越散
       color: '#8fd7e5f8', // 发光颜色
     })
-    .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig : uiMaterial.ImmersiveMaterial.empty)
+    .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig.immersivemat : uiMaterial.ImmersiveMaterial.empty)
 
   }
 }

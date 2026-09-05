@@ -52,10 +52,10 @@ export class theUimaterail {
   //沉浸光感ui材质
   @Available({ minApiVersion: 'HarmonyOS 26.0.0' }) public readonly immersivemat: uiMaterial.Material =
     new uiMaterial.ImmersiveMaterial({
-      style: uiMaterial.ImmersiveStyle.ULTRA_THIN,
+      style: uiMaterial.ImmersiveStyle.THIN,
       interactive: true,
       lightEffect: { color: Color.White },
-      materialColor: '#40FFFFFF', // 带透明度的赋色，避免遮挡滤镜
+      materialColor: '#0affffff', // 带透明度的赋色，避免遮挡滤镜
       applyShadow: true,
 
     })

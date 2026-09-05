@@ -14,6 +14,11 @@
       "name": "LoginPage",
       "pageSourceFile": "src/main/ets/pages/LoginPage.ets",
       "buildFunction": "LoginPagebuilder"
+    },
+    {
+      "name": "homePage",
+      "pageSourceFile": "src/main/ets/pages/homePage.ets",
+      "buildFunction": "homePageBuilder"
     }
   ]
 }

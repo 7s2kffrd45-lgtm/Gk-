@@ -1,7 +1,7 @@
-import { SafeAreaInfo, theUimaterail } from '../models/model';
+import { checkMaterailSupport, SafeAreaInfo, theUimaterail } from '../models/model';
 import { courses, getSchedule, loGin, loGinJson } from '../rcpModles/rcpUtil';
 import { fillDates } from '../rcpModles/schedule-utils';
-import { AppStorageV2, PromptAction } from '@kit.ArkUI';
+import { AppStorageV2, PromptAction, uiMaterial } from '@kit.ArkUI';
 import common from '@ohos.app.ability.common';
 import preUtil from '../preferenceUtil/preUtil';
 
@@ -25,6 +25,7 @@ export struct LoginPage {
   @Consumer("courseData") courseData: courses[] = [];
   @Consumer('loginDataFromRcp') loginDataFromRcp: loGinJson | null = null;
   promptAction: PromptAction = this.getUIContext().getPromptAction();
+  @Consumer("isOpenUimat") isOpenUimat: boolean = checkMaterailSupport() //识别设备是否支持沉浸光感
   private uimaterial: theUimaterail = new theUimaterail();
 
   build() {
@@ -93,7 +94,11 @@ export struct LoginPage {
               const now = Date.now();
               if (now - this.lastTime < 5000) {
                 this.promptAction.showToast(
-                  { message: '五秒内只能点击一次登陆', duration: 900, systemMaterial: this.uimaterial })
+                  {
+                    message: '五秒内只能点击一次登陆',
+                    duration: 900,
+                    systemMaterial: this.isOpenUimat ? this.uimaterial.immersivemat : uiMaterial.ImmersiveMaterial.empty
+                  })
                 return
               }
               this.lastTime = now;
@@ -101,13 +106,21 @@ export struct LoginPage {
               // 校验学号
               if (this.studentId.length <= 7) {
                 this.promptAction.showToast(
-                  { message: '学号长度必须大于7位', duration: 900, systemMaterial: this.uimaterial })
+                  {
+                    message: '学号长度必须大于7位',
+                    duration: 900,
+                    systemMaterial: this.isOpenUimat ? this.uimaterial.immersivemat : uiMaterial.ImmersiveMaterial.empty
+                  })
                 return
               }
               // 校验密码
               if (this.password.length <= 6) {
                 this.promptAction.showToast(
-                  { message: '密码长度必须大于6位', duration: 900, systemMaterial: this.uimaterial })
+                  {
+                    message: '密码长度必须大于6位',
+                    duration: 900,
+                    systemMaterial: this.isOpenUimat ? this.uimaterial.immersivemat : uiMaterial.ImmersiveMaterial.empty
+                  })
                 return
               }
               // 防止重复提交
@@ -117,7 +130,7 @@ export struct LoginPage {
                 this.promptAction.showToast({
                   message: this.loginDataFromRcp.success ? '登录成功' : this.loginDataFromRcp.message,
                   duration: 1200,
-                  systemMaterial: this.uimaterial
+                  systemMaterial: this.isOpenUimat ? this.uimaterial.immersivemat : uiMaterial.ImmersiveMaterial.empty
                 })
 
                 if (this.loginDataFromRcp.success && this.loginDataFromRcp.username) {
@@ -133,6 +146,7 @@ export struct LoginPage {
                   preUtil.flushLoginState(this.loginDataFromRcp.username + "loginSate",
                     this.loginDataFromRcp.username + "loginSate", true)
                   this.pathStack.replacePathByName('classPage', null);
+                  preUtil.saveCurrentUser(this.context, this.loginDataFromRcp.username);
                 }
               } finally {
                 this.isLogging = false

@@ -46,7 +46,7 @@ struct classPage {
         Row() {
           theLeft()
           // 中间网格:与 theLeft 对齐,格子内容 = 该节次该星期有课的课
-          theGrid()
+
           if (!this.loginSate) {
             Column() {
               Text('还没登陆哦,')
@@ -56,10 +56,14 @@ struct classPage {
                 .fontColor('#ffcfcdcd')
                 .fontColor(Color.Blue)
                 .onClick(() => {
-                  this.pathStack.pushPathByName('LoginPage', null)
+                  this.pathStack.replacePathByName('LoginPage', null)
                 })
-            }
+            }.position({ x: '50%', y: '50%' })
+            .markAnchor({ x: '50%', y: '50%' })
+          } else {
+            theGrid()
           }
+
         }
         .margin({ left: 5 })
         .layoutWeight(1)

@@ -7,6 +7,7 @@ import { theBottomBar } from '../views/theBottomBar';
 import { weekViews } from '../views/weekViews';
 import { theMinClass } from '../views/theMInClass';
 import { currentWeek } from '../rcpModles/schedule-utils';
+import common from '@ohos.app.ability.common';
 
 const info = getGreetingInfo();
 
@@ -19,11 +20,8 @@ struct Index {
   @Provider('loginDataFromRcp') loginDataFromRcp: loGinJson | null = null;
   // @Provider("courseData") courseData: courses[] = [];
   @Provider("isOpenUimat") isOpenUimat: boolean = checkMaterailSupport() //识别设备是否支持沉浸光感
-  @Local isShow: boolean = false;
-  @Local theWith: string = "15%";
-  @Local theHeight: string = "10%";
-  @Local theRadius: number = 40;
-  @Local clickStep: number = 0; // 点击步骤：0→1→2→0 循环
+  @Local context: Context = getContext(this) as common.UIAbilityContext;
+  @Provider('userName') userName: string = '';
   @Provider('loginSate') loginSate: boolean = false;
   @Provider('weekNum') weekNum: number = 1 //当前周数
   @Provider('localData') localData: courses[] = [] //储存从实例中拿到的数据
@@ -42,6 +40,7 @@ struct Index {
       await preUtil.loginState(getContext(this), username + "loginSate")
       const result = await preUtil.getData(username + "loginSate", username + "loginSate", false)
       this.loginSate = result === true
+      this.userName = await preUtil.getCurrentUser(this.context);
     }
   }
 
@@ -77,7 +76,7 @@ struct Index {
           .height(320)
           .borderRadius(20)
           .backgroundColor('#1d929191')
-          .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig : uiMaterial.ImmersiveMaterial.empty)
+          .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig.immersivemat : uiMaterial.ImmersiveMaterial.empty)
 
           // .onClick(() => {
           //   this.pathStack.pushPathByName("classPage", null)

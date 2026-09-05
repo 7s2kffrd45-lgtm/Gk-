@@ -1,13 +1,13 @@
 import { weekItem } from '../models/datahead';
-import { weekHeader, currentWeek } from '../rcpModles/schedule-utils';
-import { theUimaterail } from '../models/model';
+import { currentWeek, weekHeader } from '../rcpModles/schedule-utils';
+import { checkMaterailSupport, theUimaterail } from '../models/model';
 import { uiMaterial } from '@kit.ArkUI';
 
 @ComponentV2
 export struct theHead {
-  @Consumer("isOpenUimat") isOpenUimat: boolean = false;
   @Consumer('weekNum') weekNum: number = 1 //当前周数
-  @Local weekItems: weekItem[] = []        //表头数据:周一~周日 + 日期 + 是否今天
+  @Local weekItems: weekItem[] = [] //表头数据:周一~周日 + 日期 + 是否今天
+  @Provider("isOpenUimat") isOpenUimat: boolean = checkMaterailSupport() //识别设备是否支持沉浸光感
   private uimaterial: theUimaterail = new theUimaterail();
   private termStart: string = '2026-8-31'; //开学第1周周一(按数据反推:第2周周一=9月7日)
 
@@ -38,7 +38,7 @@ export struct theHead {
         Text(`第${this.weekNum}周`)
           .fontSize(16)
           .fontWeight(FontWeight.Bold)
-          .fontColor('#333333')
+          .fontColor('#ffcfcdcd')
 
         Text('>')
           .fontSize(18)

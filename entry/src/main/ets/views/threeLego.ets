@@ -28,7 +28,7 @@ export struct threeLego {
       radius: 12,
       color: '#66d7e5f8',
     })
-    .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig : uiMaterial.ImmersiveMaterial.empty)
+    .systemMaterial(this.isOpenUimat ? this.uiMaterialConfig.immersivemat : uiMaterial.ImmersiveMaterial.empty)
   }
 
   build() {
@@ -67,7 +67,9 @@ export struct threeLego {
 
   // 本周剩余课程数（明天到周日）
   private getRemainingCourseCount(): number {
-    if (!this.localData || this.localData.length === 0) return 0
+    if (!this.localData || this.localData.length === 0) {
+      return 0
+    }
     const today = todayDayOfWeek()
     let count = 0
     for (let day = today + 1; day <= 7; day++) {
